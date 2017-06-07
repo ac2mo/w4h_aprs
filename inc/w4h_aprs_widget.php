@@ -95,29 +95,20 @@ class w4h_aprs_widget extends WP_Widget {
 
 	public function widget( $args, $instance ) {
 
-		$ret = <<<PREFIX
-		<p>
+		?><p>
 		<script type="text/javascript">
-PREFIX;
-
-		foreach( $this->_fields as $field ) {
+		<?php foreach( $this->_fields as $field ) {
 			if( !isset( $instance[$field] ) || $instance[$field] === '' ) continue;
-			$ret .= "\t\t{$field} = " .
+			echo $field; ?> = <?php echo 
 				( !is_numeric( $instance[$field] ) ? "'" : "" ) .
 				$instance[$field] .
-				( !is_numeric( $instance[$field] ) ? "'" : "" ) .
-				";\n";
-				
-		}
-
-		$ret .= <<<SUFFIX
+				( !is_numeric( $instance[$field] ) ? "'" : "" ) . ";\n";
+		} ?>
 		</script>
 		<script type="text/javascript" src="http://aprs.fi/js/embed.js">
 		</script>
 		</p>
-SUFFIX;
-
-		return $ret;
+		<?php
 	}
 
 	private function _adminTextBox( $name, $label, $value, $placeholder ) {
