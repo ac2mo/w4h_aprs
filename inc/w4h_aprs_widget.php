@@ -48,16 +48,12 @@ class w4h_aprs_widget extends WP_Widget {
 
 	public function __construct() {
 		parent::__construct(
-			'w4h_aprs-widget',
+			'w4h_aprs_widget',
 			'W4H APRS Widget',
 			array(
 				'description' => 'Displays an APRS tracker widget from APRS.FI.'
 			)
 		);
-		add_action( 'widgets_init', array( $this, 'register_w4h_aprs_widget' ) );
-	}
-
-	public function register_w4h_aprs_widget() {
 	}
 
 	public function form( $instance ) {
@@ -67,7 +63,6 @@ class w4h_aprs_widget extends WP_Widget {
 		}
 
 		?>
-		<p>Configure APRS Widget:</p>
 		<?php $this->_adminTextBox( 'he_width', 'Map Width', $he_width, '550' ); ?>
 		<?php $this->_adminTextBox( 'he_height', 'Map Height', $he_height, '350' ); ?>
 		<?php $this->_adminSelect( 'he_zoom', 'Map Zoom Level', $he_zoom, $this->_zoomOptions ); ?>
@@ -139,15 +134,18 @@ SUFFIX;
 
 	private function _adminCheckBox( $name, $label, $value ) {
 		?>
+		<p>
 			<input name="<?php echo $this->get_field_name( $name ); ?>"
 				id="<?php echo $this->get_field_id( $name ); ?>"
 				type="checkbox" value="1" <?php echo $value == 1 ? 'checked="checked" ' : ''; ?>/>
 			<label for="<?php echo $this->get_field_name( $name ); ?>"><?php echo $label; ?></label>
+		</p>
 		<?php
 	}
 
 	private function _adminSelect( $name, $label, $value, $options ) {
 		?>
+		<p>
 			<label for="<?php echo $this->get_field_name( $name ); ?>"><?php echo $label; ?></label>
 			<select name="<?php echo $this->get_field_name( $name ); ?>"
 				id="<?php echo $this->get_field_id( $name ); ?>"
@@ -156,7 +154,10 @@ SUFFIX;
 				<option value="<?php echo $k; ?>"<?php echo ( $k == $value ? ' selected="selected"' : '' ); ?>><?php echo $v; ?></option>
 				<?php } ?>
 			</select>
+		</p>
 		<?php
 	}
 }
+
+add_action( 'widgets_init', create_function( '', 'return register_widget( "w4h_aprs_widget" ); ' ) );
 ?>
