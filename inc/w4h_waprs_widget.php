@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die( 'Go Away!' );
 
-class w4h-aprs-widget extends WP_Widget {
+class w4h_aprs_widget extends WP_Widget {
 
 	private $_fields = array(
 		'he_width', 'he_height', 'he_zoom', 'he_maptype', 'he_track',
@@ -48,7 +48,7 @@ class w4h-aprs-widget extends WP_Widget {
 
 	public function __construct() {
 		parent::__construct(
-			'w4h-aprs-widget',
+			'w4h_aprs-widget',
 			'W4H APRS Widget',
 			array(
 				'description' => 'Displays an APRS tracker widget from APRS.FI.'

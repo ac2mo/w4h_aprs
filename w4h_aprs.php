@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name:	W4H-APRS
-Plugin URI:	https://github.com/ac2mo/w4h-aprs
+Plugin URI:	https://github.com/ac2mo/w4h_aprs
 Description:	Places an APRS tracking widget on your site.
 Version:	0.1
 Author:		Gregory S. Hoernern (AC2MO)
@@ -9,7 +9,7 @@ License:	MIT
 */
 defined( 'ABSPATH' ) or die( 'Go Away!' );
 
-class w4h-aprs {
+class w4h_aprs {
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts_and_styles' ) );
@@ -20,11 +20,11 @@ class w4h-aprs {
 	}
 
 	public function enqueue_admin_scripts_and_styles() {
-		wp_enqueue_style( 'w4h-aprs-admin', plugin_dir_url( __FILE__ ) . '/css/w4h-aprs-admin.css' );
+		wp_enqueue_style( 'w4h_aprs_admin', plugin_dir_url( __FILE__ ) . '/css/w4h_aprs_admin.css' );
 	}
 
 	public function enqueue_public_scripts_and_styles() {
-		wp_enqueue_style( 'w4h-aprs-public', plugin_dir_url( __FILE__ ) . '/css/w4h-aprs-public.css' );
+		wp_enqueue_style( 'w4h_aprs_public', plugin_dir_url( __FILE__ ) . '/css/w4h_aprs_public.css' );
 	}
 
 	public function plugin_activate() {
@@ -34,5 +34,5 @@ class w4h-aprs {
 	}
 }
 
-include( plugin_dir_path( __FILE__ ) . 'inc/w4h-aprs-widget.php' );
+include( plugin_dir_path( __FILE__ ) . 'inc/w4h_aprs_widget.php' );
 ?>
