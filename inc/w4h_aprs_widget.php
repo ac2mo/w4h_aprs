@@ -62,21 +62,19 @@ class w4h_aprs_widget extends WP_Widget {
 			$$field = ( isset( $instance[$field] ) ? $instance[$field] : '' );
 		}
 
-		?>
-		<?php $this->_adminTextBox( 'he_width', 'Map Width', $he_width, '550' ); ?>
-		<?php $this->_adminTextBox( 'he_height', 'Map Height', $he_height, '350' ); ?>
-		<?php $this->_adminSelect( 'he_zoom', 'Map Zoom Level', $he_zoom, $this->_zoomOptions ); ?>
-		<?php $this->_adminSelect( 'he_maptype', 'Map Type', $he_maptype, $this->_mapOptions ); ?>
-		<?php $this->_adminTextBox( 'he_track', 'Callsign/Item(s) to Track', $he_track, '' ); ?>
-		<?php $this->_adminCheckBox( 'he_show_others', 'Show Other Stations', $he_show_others ); ?>
-		<?php $this->_adminTextBox( 'he_lat', 'Latitude to Center the Map On', $he_lat, '' ); ?>
-		<?php $this->_adminTextBox( 'he_lng', 'Longitude to Center the Map On', $he_lng, '' ); ?>
-		<?php $this->_adminCheckBox( 'he_hide_tcp', 'Hide Non-RF Stations', $he_hide_tcp ); ?>
-		<?php $this->_adminSelect( 'he_show_aprs', 'Show APRS Stations', $he_show_aprs, $this->_showOptions ); ?>
-		<?php $this->_adminSelect( 'he_show_aprs_w', 'Show Weather Stations', $he_show_aprs_w, $this->_showOptions ); ?>
-		<?php $this->_adminSelect( 'he_show_aprs_i', 'Show Items and Objects', $he_show_aprs_i, $this->_showOptions ); ?>
-		<?php $this->_adminSelect( 'he_show_ais', 'Show Vessel AIS Data', $he_show_ais, $this->_showOptions ); ?>
-		<?php
+		$this->_adminTextBox( 'he_width', 'Map Width', $he_width, '550' );
+		$this->_adminTextBox( 'he_height', 'Map Height', $he_height, '350' );
+		$this->_adminSelect( 'he_zoom', 'Map Zoom Level', $he_zoom, $this->_zoomOptions );
+		$this->_adminSelect( 'he_maptype', 'Map Type', $he_maptype, $this->_mapOptions );
+		$this->_adminTextBox( 'he_track', 'Callsign/Item(s) to Track', $he_track, '' );
+		$this->_adminCheckBox( 'he_show_others', 'Show Other Stations', $he_show_others );
+		$this->_adminTextBox( 'he_lat', 'Latitude to Center the Map On', $he_lat, '' );
+		$this->_adminTextBox( 'he_lng', 'Longitude to Center the Map On', $he_lng, '' );
+		$this->_adminCheckBox( 'he_hide_tcp', 'Hide Non-RF Stations', $he_hide_tcp );
+		$this->_adminSelect( 'he_show_aprs', 'Show APRS Stations', $he_show_aprs, $this->_showOptions );
+		$this->_adminSelect( 'he_show_aprs_w', 'Show Weather Stations', $he_show_aprs_w, $this->_showOptions );
+		$this->_adminSelect( 'he_show_aprs_i', 'Show Items and Objects', $he_show_aprs_i, $this->_showOptions );
+		$this->_adminSelect( 'he_show_ais', 'Show Vessel AIS Data', $he_show_ais, $this->_showOptions );
 	}
 
 	public function update( $new_instance, $old_instance ) {
