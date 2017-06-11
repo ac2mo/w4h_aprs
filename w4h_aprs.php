@@ -9,5 +9,6 @@ License:	MIT
 */
 defined( 'ABSPATH' ) or die( 'Go Away!' );
 
+include( plugin_dir_path( __FILE__ ) . 'inc/w4h_aprs_shortcode.php' );
 include( plugin_dir_path( __FILE__ ) . 'inc/w4h_aprs_widget.php' );
 ?>

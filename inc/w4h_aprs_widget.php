@@ -1,12 +1,14 @@
 <?php
 defined( 'ABSPATH' ) or die( 'Go Away!' );
 
+require_once( plugin_dir_path( __FILE__ ) . 'w4h_aprs_render.php' );
+
 class w4h_aprs_widget extends WP_Widget {
 
 	private $_fields = array(
-		'he_width', 'he_height', 'he_zoom', 'he_maptype', 'he_track',
-		'he_show_others', 'he_lat', 'he_lng', 'he_hide_tcp', 'he_show_aprs',
-		'he_show_aprs_w', 'he_show_aprs_i', 'he_show_ais',
+		'width', 'height', 'zoom', 'maptype', 'track',
+		'show_others', 'lat', 'lng', 'hide_tcp', 'show_aprs',
+		'show_aprs_w', 'show_aprs_i', 'show_ais',
 	);
 
 	private $_zoomOptions = array(
@@ -44,7 +46,13 @@ class w4h_aprs_widget extends WP_Widget {
 		'w' => 'Show Track Line and Waypoints',
 	);
 
-	private $_checkboxFields = array( 'he_show_others', 'he_hide_tcp' );
+	private $_checkboxFields = array( 'show_others', 'hide_tcp' );
+
+	private $render;
+
+	public static function register() {
+		return register_widget( 'w4h_aprs_widget' );
+	}
 
 	public function __construct() {
 		parent::__construct(
@@ -54,6 +62,7 @@ class w4h_aprs_widget extends WP_Widget {
 				'description' => 'Displays an APRS tracker widget from APRS.FI.'
 			)
 		);
+		$this->render = new w4h_aprs_render();
 	}
 
 	public function form( $instance ) {
@@ -62,19 +71,19 @@ class w4h_aprs_widget extends WP_Widget {
 			$$field = ( isset( $instance[$field] ) ? $instance[$field] : '' );
 		}
 
-		$this->_adminTextBox( 'he_width', 'Map Width', $he_width, '550' );
-		$this->_adminTextBox( 'he_height', 'Map Height', $he_height, '350' );
-		$this->_adminSelect( 'he_zoom', 'Map Zoom Level', $he_zoom, $this->_zoomOptions );
-		$this->_adminSelect( 'he_maptype', 'Map Type', $he_maptype, $this->_mapOptions );
-		$this->_adminTextBox( 'he_track', 'Callsign/Item(s) to Track', $he_track, '' );
-		$this->_adminCheckBox( 'he_show_others', 'Show Other Stations', $he_show_others );
-		$this->_adminTextBox( 'he_lat', 'Latitude to Center the Map On', $he_lat, '' );
-		$this->_adminTextBox( 'he_lng', 'Longitude to Center the Map On', $he_lng, '' );
-		$this->_adminCheckBox( 'he_hide_tcp', 'Hide Non-RF Stations', $he_hide_tcp );
-		$this->_adminSelect( 'he_show_aprs', 'Show APRS Stations', $he_show_aprs, $this->_showOptions );
-		$this->_adminSelect( 'he_show_aprs_w', 'Show Weather Stations', $he_show_aprs_w, $this->_showOptions );
-		$this->_adminSelect( 'he_show_aprs_i', 'Show Items and Objects', $he_show_aprs_i, $this->_showOptions );
-		$this->_adminSelect( 'he_show_ais', 'Show Vessel AIS Data', $he_show_ais, $this->_showOptions );
+		$this->_adminTextBox( 'width', 'Map Width', $width, '550' );
+		$this->_adminTextBox( 'height', 'Map Height', $height, '350' );
+		$this->_adminSelect( 'zoom', 'Map Zoom Level', $zoom, $this->_zoomOptions );
+		$this->_adminSelect( 'maptype', 'Map Type', $maptype, $this->_mapOptions );
+		$this->_adminTextBox( 'track', 'Callsign/Item(s) to Track', $track, '' );
+		$this->_adminCheckBox( 'show_others', 'Show Other Stations', $show_others );
+		$this->_adminTextBox( 'lat', 'Latitude to Center the Map On', $lat, '' );
+		$this->_adminTextBox( 'lng', 'Longitude to Center the Map On', $lng, '' );
+		$this->_adminCheckBox( 'hide_tcp', 'Hide Non-RF Stations', $hide_tcp );
+		$this->_adminSelect( 'show_aprs', 'Show APRS Stations', $show_aprs, $this->_showOptions );
+		$this->_adminSelect( 'show_aprs_w', 'Show Weather Stations', $show_aprs_w, $this->_showOptions );
+		$this->_adminSelect( 'show_aprs_i', 'Show Items and Objects', $show_aprs_i, $this->_showOptions );
+		$this->_adminSelect( 'show_ais', 'Show Vessel AIS Data', $show_ais, $this->_showOptions );
 	}
 
 	public function update( $new_instance, $old_instance ) {
@@ -93,20 +102,11 @@ class w4h_aprs_widget extends WP_Widget {
 
 	public function widget( $args, $instance ) {
 
-		?><p>
-		<script type="text/javascript">
-		<?php foreach( $this->_fields as $field ) {
+		foreach( $this->_fields as $field ) {
 			if( !isset( $instance[$field] ) || $instance[$field] === '' ) continue;
-			echo $field; ?> = <?php echo 
-				( !is_numeric( $instance[$field] ) ? "'" : "" ) .
-				$instance[$field] .
-				( !is_numeric( $instance[$field] ) ? "'" : "" ) . ";\n";
-		} ?>
-		</script>
-		<script type="text/javascript" src="http://aprs.fi/js/embed.js">
-		</script>
-		</p>
-		<?php
+			$this->render->$field = $instance[$field];
+		}
+		echo $this->render->render();
 	}
 
 	private function _adminTextBox( $name, $label, $value, $placeholder ) {
@@ -148,5 +148,5 @@ class w4h_aprs_widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', create_function( '', 'return register_widget( "w4h_aprs_widget" ); ' ) );
+add_action( 'widgets_init', array( 'w4h_aprs_widget', 'register' ) );
 ?>
